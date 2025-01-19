@@ -24,6 +24,12 @@
         .unban-button:hover {
             background-color: #45a049;
         }
+
+        .input-box {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -31,22 +37,35 @@
     <h1>Unban Yourself from Minecraft</h1>
     <p>If you were banned from the server, click the button below to get unbanned!</p>
     
+    <!-- Input box for the player to type their Minecraft username -->
+    <label for="playerName">Enter your Minecraft username:</label>
+    <input type="text" id="playerName" class="input-box" placeholder="Your Username" required>
+
     <!-- Button that sends a request to the server to unban the player -->
     <button class="unban-button" onclick="unbanPlayer()">Unban Me!</button>
 
     <script>
         function unbanPlayer() {
-            // Send an HTTP request to your backend server to unban the player
+            // Get the username from the input box
+            const playerName = document.getElementById("playerName").value;  // This will get the player's name
+
+            // If the player didn't enter a name, show an alert and stop
+            if (!playerName) {
+                alert("Please enter your Minecraft username.");
+                return;
+            }
+
+            // Send the username to your backend server to unban the player
             fetch('/unban', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ playerName: "Player123" }) // Replace "Player123" with the actual player's name
+                body: JSON.stringify({ playerName: playerName })  // Send the player name to the server
             })
-            .then(response => response.json())
-            .then(data => alert("You have been unbanned!"))
-            .catch(error => alert("There was an error. Please try again later."));
+            .then(response => response.json())  // Wait for the server to respond
+            .then(data => alert("You have been unbanned!"))  // Show a message when unbanned
+            .catch(error => alert("There was an error. Please try again later."));  // If something went wrong
         }
     </script>
 </body>
