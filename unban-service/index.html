@@ -46,26 +46,24 @@
 
     <script>
         function unbanPlayer() {
-            // Get the username from the input box
-            const playerName = document.getElementById("playerName").value;  // This will get the player's name
-
-            // If the player didn't enter a name, show an alert and stop
+            const playerName = document.getElementById("playerName").value;  // Get the player's name from the input field
+            
             if (!playerName) {
                 alert("Please enter your Minecraft username.");
                 return;
             }
 
-            // Send the username to your backend server to unban the player
+            // Send the player's name to the server to unban
             fetch('/unban', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ playerName: playerName })  // Send the player name to the server
+                body: JSON.stringify({ playerName: playerName })  // Send the name to the server
             })
-            .then(response => response.json())  // Wait for the server to respond
-            .then(data => alert("You have been unbanned!"))  // Show a message when unbanned
-            .catch(error => alert("There was an error. Please try again later."));  // If something went wrong
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => alert("You have been unbanned!"))  // Show a success message
+            .catch(error => alert("There was an error. Please try again later."));  // Handle errors
         }
     </script>
 </body>
